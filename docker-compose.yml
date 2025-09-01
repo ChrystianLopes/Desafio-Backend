@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15
+    container_name: rental_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=rentaldb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mongo_db:
+    image: mongo:latest
+    container_name: rental_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rental_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"  # AMQP port
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+
+  minio:
+    image: minio/minio:latest
+    container_name: rental_minio
+    ports:
+      - "9000:9000" # API port
+      - "9001:9001" # Console UI
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data --console-address ":9001"
+
+volumes:
+  postgres_data:
+  mongo_data:
+

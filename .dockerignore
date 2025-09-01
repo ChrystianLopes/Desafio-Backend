@@ -1,0 +1,18 @@
+# Ignore git and VS specific files
+.git
+.gitignore
+.vs/
+.vscode/
+
+# Ignore test projects, they are not needed in the final image
+tests/
+
+# Ignore build artifacts from local machine
+**/bin/
+**/obj/
+
+# Ignore documentation and docker-compose files
+README.md
+docker-compose.yml
+docker-compose.override.yml
+
